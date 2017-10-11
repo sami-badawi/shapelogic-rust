@@ -11,3 +11,16 @@ in comparison to using Scala and TypeScript/WebGL.
 * [ShapeLogic TypeScript](https://github.com/sami-badawi/shapelogic-typescript)
 
 All 3 are modern languages with very sophisticated type systems.
+
+## Goals ##
+
+* Get some image processing algorithms working from command line script
+* Start porting algorithms from ShapeLogic Scala
+* Figure out what to do about a GUI, possibly web based on
+  * Single page web application, possibly based on work in [ShapeLogic TypeScript](https://github.com/sami-badawi/shapelogic-typescript)
+  * Gtk og Gnome Rust bindings
+  
+## Status ##
+
+Vaporware. In a cool new language. :D
+
