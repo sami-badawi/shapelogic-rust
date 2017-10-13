@@ -26,7 +26,8 @@ To begin with the GUI can be rudementary.
 * Gtk og Gnome Rust bindings
 * SDL2 game engine bindings
 * Cursive / ncurses old but powerful GUI show image in browser
-  
+* Compile to WebAssembly and run in browser
+
 ## Status ##
 
 Vaporware. In a cool new language. :D
