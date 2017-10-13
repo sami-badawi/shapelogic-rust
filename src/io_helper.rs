@@ -6,15 +6,24 @@ use std::path::Path;
 
 use self::image::GenericImage;
 
-/// Function to test that image can open and save
-pub fn jpg_to_png(filename: std::string::String) {
-    let im = image::open(&Path::new(&filename)).unwrap();
+/// Convert jpeg image to png image
+pub fn jpg_2_png(
+    input_filename: std::string::String,
+    output_filename: std::string::String
+) {
+    let im = image::open(&Path::new(&input_filename)).unwrap();
 
     println!("dimensions {:?}", im.dimensions());
 
     println!("{:?}", im.color());
 
-    let fout = &mut File::create(&Path::new(&format!("{}.png", filename))).unwrap();
+    let fout = &mut File::create(&Path::new(&output_filename)).unwrap();
 
     im.save(fout, image::PNG).unwrap();
+}
+
+/// Convert jpeg image to png image reuse name
+pub fn jpg_to_png(input_filename: std::string::String) {
+    let output_filename = format!("{}.png", input_filename);
+    jpg_2_png(input_filename, output_filename)
 }
