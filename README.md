@@ -17,8 +17,15 @@ All 3 are modern languages with very sophisticated type systems.
 * Get some image processing algorithms working from command line script
 * Start porting algorithms from ShapeLogic Scala
 * Figure out what to do about a GUI, possibly web based on
-  * Single page web application, possibly based on work in [ShapeLogic TypeScript](https://github.com/sami-badawi/shapelogic-typescript)
-  * Gtk og Gnome Rust bindings
+
+## GUI Ideas ##
+
+To begin with the GUI can be rudementary.
+
+* Single page web application, possibly based on work in [ShapeLogic TypeScript](https://github.com/sami-badawi/shapelogic-typescript)
+* Gtk og Gnome Rust bindings
+* SDL2 game engine bindings
+* Cursive / ncurses old but powerful GUI show image in browser
   
 ## Status ##
 
