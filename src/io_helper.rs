@@ -20,6 +20,18 @@ pub fn extension_2_enum(extension: &str) -> ImageFormat {
     }
 }
 
+#[test]
+fn extension_2_enum_test_png() {
+    let result_found = extension_2_enum("png");
+    assert_eq!(ImageFormat::PNG, result_found)
+}
+
+#[test]
+fn extension_2_enum_test_tiff() {
+    let result_found = extension_2_enum("tiff");
+    assert_eq!(ImageFormat::TIFF, result_found)
+}
+
 /// General way to get from input name, given output name and extension to real output name
 #[allow(dead_code)]
 pub fn input_to_output_name(
