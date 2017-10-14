@@ -9,14 +9,16 @@ use self::image::ImageFormat;
 
 // ================ extension_2_enum ================
 
-/// Should be made automatic
+/// Should maybe be made automatic
 #[allow(dead_code)]
 pub fn extension_2_enum(extension: &str) -> ImageFormat {
     let extension_string = extension.to_owned();
     let extension_lower = extension_string.to_lowercase();
     match extension_lower.as_str() {
-        "png" => ImageFormat::PNG,
+        "gif" => ImageFormat::GIF,
         "jpg" | "jpeg" => ImageFormat::JPEG,
+        "png" => ImageFormat::PNG,
+        "webp" => ImageFormat::WEBP,
         "tiff" => ImageFormat::TIFF,
         _ => ImageFormat::PNG,
     }
@@ -64,46 +66,21 @@ fn input_to_output_name_test() {
 
 // ================ image_format_converter ================
 
-#[allow(dead_code)]
+/// Change an image from one format to another
 pub fn image_format_converter(input_filename: &str, output_name: &str, extension: &str) {
     let im = image::open(&Path::new(&input_filename)).unwrap();
     let output_filename = input_to_output_name(input_filename, output_name, extension);
 
-    println!("Image: {} has dimensions {:?} and colors: {:?}", input_filename, im.dimensions(), im.color());
+    println!(
+        "Image: {} has dimensions {:?} and colors: {:?}",
+        input_filename,
+        im.dimensions(),
+        im.color()
+    );
 
     let fout = &mut File::create(&Path::new(&output_filename)).unwrap();
+    let image_format = extension_2_enum(extension);
+    println!("New image format: {:?}", image_format);
 
-    im.save(fout, image::PNG).unwrap();
-}
-
-// ================ jpg_2_png take out ================
-
-/// Convert jpeg image to png image
-#[allow(dead_code)]
-pub fn jpg_2_png(input_filename: &str, output_name: &str) {
-    let im = image::open(&Path::new(&input_filename)).unwrap();
-    let output_filename = output_name.to_owned();
-
-    println!("dimensions {:?}", im.dimensions());
-
-    println!("{:?}", im.color());
-
-    let output_filename_with_ending = if output_filename.ends_with(".png") {
-        output_filename
-    } else {
-        format!("{}.png", output_filename)
-    };
-    let fout = &mut File::create(&Path::new(&output_filename_with_ending)).unwrap();
-
-    im.save(fout, image::PNG).unwrap();
-}
-
-// ================ jpg_to_png take out ================
-
-/// Convert jpeg image to png image reuse name
-#[deprecated]
-#[allow(dead_code)]
-pub fn jpg_to_png(input_filename: &str) {
-    let output_filename = format!("{}.png", input_filename);
-    jpg_2_png(&input_filename, &output_filename)
+    im.save(fout, image_format).unwrap();
 }
