@@ -28,7 +28,12 @@ To begin with the GUI can be rudementary.
 * Cursive / ncurses old but powerful GUI show image in browser
 * Compile to WebAssembly and run in browser
 
-## Status ##
+## Status: Pre-alpha ##
 
-Vaporware. In a cool new language. :D
+Currently ShapeLogic Rust is a command line application. It has been remarkably easy to get started with Rust and Image lib works great.
+
+## Functionality ##
+
+* Load image and save in differnet format
+
 
