@@ -7,6 +7,8 @@ use std::path::Path;
 use self::image::GenericImage;
 use self::image::ImageFormat;
 
+// ================ extension_2_enum ================
+
 /// Should be made automatic
 #[allow(dead_code)]
 pub fn extension_2_enum(extension: &str) -> ImageFormat {
@@ -32,6 +34,8 @@ fn extension_2_enum_test_tiff() {
     assert_eq!(ImageFormat::TIFF, result_found)
 }
 
+// ================ input_to_output_name ================
+
 /// General way to get from input name, given output name and extension to real output name
 #[allow(dead_code)]
 pub fn input_to_output_name(
@@ -51,6 +55,13 @@ pub fn input_to_output_name(
     };
     output_filename_with_ending
 }
+
+#[test]
+fn input_to_output_name_test() {
+    let result_found = input_to_output_name("img/Lenna.jpg", "", "tiff");
+    assert_eq!("img/Lenna.jpg.tiff".to_owned(), result_found)
+}
+
 
 /// Convert jpeg image to png image
 pub fn jpg_2_png(input_filename: std::string::String, output_filename: std::string::String) {
