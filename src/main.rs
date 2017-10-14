@@ -23,6 +23,13 @@ pub fn main() {
                 .takes_value(true)
                 .help("Output file name"),
         )
+        .arg(
+            Arg::with_name("extention")
+                .short("e")
+                .long("extention")
+                .takes_value(true)
+                .help("new image format extention"),
+        )
         .get_matches();
 
 
@@ -31,13 +38,16 @@ pub fn main() {
         .unwrap_or("./img/Lenna.jpg")
         .to_string();
     let output = matches.value_of("out").unwrap_or("").to_string();
+    let extention = matches.value_of("extention").unwrap_or("png").to_string();
+
     println!("Input file: {}; Output fiel: {}", filename, output);
 
     println!("Yes I know what you are thinking. More languages, more vaporware. :D");
     println!("{}", filename);
-    if output.is_empty() {
-        io_helper::jpg_to_png(&filename);
-    } else {
-        io_helper::jpg_2_png(&filename, &output);
-    }
+    io_helper::image_format_converter(&filename, &output, &extention)
+    // if output.is_empty() {
+    //     io_helper::jpg_to_png(&filename);
+    // } else {
+    //     io_helper::jpg_2_png(&filename, &output);
+    // }
 }
