@@ -36,8 +36,8 @@ pub fn main() {
     println!("Yes I know what you are thinking. More languages, more vaporware. :D");
     println!("{}", filename);
     if output.is_empty() {
-        io_helper::jpg_to_png(filename);
+        io_helper::jpg_to_png(&filename);
     } else {
-        io_helper::jpg_2_png(filename, output);
+        io_helper::jpg_2_png(&filename, &output);
     }
 }

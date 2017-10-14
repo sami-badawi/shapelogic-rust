@@ -62,10 +62,12 @@ fn input_to_output_name_test() {
     assert_eq!("img/Lenna.jpg.tiff".to_owned(), result_found)
 }
 
+// ================ Image converter ================
 
 /// Convert jpeg image to png image
-pub fn jpg_2_png(input_filename: std::string::String, output_filename: std::string::String) {
+pub fn jpg_2_png(input_filename: &str, output_name: &str) {
     let im = image::open(&Path::new(&input_filename)).unwrap();
+    let output_filename = output_name.to_owned();
 
     println!("dimensions {:?}", im.dimensions());
 
@@ -81,8 +83,11 @@ pub fn jpg_2_png(input_filename: std::string::String, output_filename: std::stri
     im.save(fout, image::PNG).unwrap();
 }
 
+// ================ jpg_to_png take out ================
+
 /// Convert jpeg image to png image reuse name
-pub fn jpg_to_png(input_filename: std::string::String) {
+#[deprecated]
+pub fn jpg_to_png(input_filename: &str) {
     let output_filename = format!("{}.png", input_filename);
-    jpg_2_png(input_filename, output_filename)
+    jpg_2_png(&input_filename, &output_filename)
 }
