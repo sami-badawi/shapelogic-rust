@@ -67,8 +67,25 @@ fn input_to_output_name_test() {
 // ================ image_format_converter ================
 
 /// Change an image from one format to another
-pub fn image_format_converter(input_filename: &str, output_name: &str, extension: &str) {
-    let im = image::open(&Path::new(&input_filename)).unwrap();
+pub fn image_format_converter(
+    input_filename: &str,
+    output_name: &str,
+    extension: &str,
+    transform: &str,
+) {
+    let mut im_in: image::DynamicImage = image::open(&Path::new(&input_filename)).unwrap();
+    let im = match transform {
+        "fliph" => im_in.fliph(),
+        "flipv" => im_in.flipv(),
+        "gray" => image::ImageLuma8(im_in.to_luma()),
+        "r90" => im_in.rotate90(),
+        "r270" => im_in.rotate270(),
+        "invert" => {
+            im_in.invert();
+            im_in
+        }
+        _ => im_in,
+    };
     let output_filename = input_to_output_name(input_filename, output_name, extension);
 
     println!(
