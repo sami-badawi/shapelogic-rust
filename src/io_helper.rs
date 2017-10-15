@@ -74,7 +74,9 @@ pub fn image_format_converter(
     transform: &str,
 ) {
     let mut im_in: image::DynamicImage = image::open(&Path::new(&input_filename)).unwrap();
-    let im = match transform {
+    let transform_lower = transform.trim().to_lowercase();
+    let transform_ref: &str = &transform_lower;
+    let im = match transform_ref {
         "fliph" => im_in.fliph(),
         "flipv" => im_in.flipv(),
         "gray" => image::ImageLuma8(im_in.to_luma()),
