@@ -5,6 +5,11 @@ Image processing and coputer vision experiments in Rust.
 This project is meant investigate how easy it is do image processing and computer vision programming in Rust, 
 in comparison to using Scala and TypeScript/WebGL.
 
+## Features ##
+
+* Command line application
+* Load image and save it in differnet image format
+
 ## Sister project ##
 
 * [ShapeLogic Scala](https://github.com/sami-badawi/shapelogic-scala)
@@ -30,10 +35,6 @@ To begin with the GUI can be rudementary.
 
 ## Status: Pre-alpha ##
 
-Currently ShapeLogic Rust is a command line application. It has been remarkably easy to get started with Rust and Image lib works great.
+Currently ShapeLogic Rust is a command line application. 
 
-## Functionality ##
-
-* Load image and save in differnet format
-
-
+It has been remarkably easy to get started with Rust and Image lib works great.
