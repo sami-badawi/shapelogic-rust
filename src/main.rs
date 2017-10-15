@@ -7,7 +7,7 @@ mod image_operations;
 
 pub fn main() {
     let matches = App::new("ShapeLogic Rust")
-        .version("0.1.0")
+        .version("0.2.0")
         .author("Sami Badawi")
         .about("ShapeLogic Rust, computer vision and image processing in Rust")
         .arg(
