@@ -86,7 +86,11 @@ pub fn image_format_converter(
             im_in.invert();
             im_in
         }
-        _ => im_in,
+        "" => im_in,
+        other => {
+            println!("Unknown image tranformation: {}", other);
+            im_in
+        }
     };
     let output_filename = input_to_output_name(input_filename, output_name, extension);
 
