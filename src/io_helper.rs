@@ -7,6 +7,7 @@ use std::path::Path;
 use self::image::GenericImage;
 use self::image::ImageFormat;
 
+use image_filter;
 use image_operations;
 
 // ================ extension_2_enum ================
@@ -84,10 +85,11 @@ pub fn image_format_converter(
         "gray" => image::ImageLuma8(im_in.to_luma()),
         "r90" => im_in.rotate90(),
         "r270" => im_in.rotate270(),
-        "blur" => image_operations::blur_operation(im_in),
-        "edge" => image_operations::edge_operation(im_in),
-        "sobel_h" => image_operations::sobel_h_operation(im_in),
-        "sobel_v" => image_operations::sobel_v_operation(im_in),
+        "blur" => image_filter::blur_operation(im_in),
+        "edge" => image_filter::edge_operation(im_in),
+        "sobel_h" => image_filter::sobel_h_operation(im_in),
+        "sobel_v" => image_filter::sobel_v_operation(im_in),
+        "threshold" => image_operations::threshold(im_in, 128),
         "invert" => {
             im_in.invert();
             im_in
