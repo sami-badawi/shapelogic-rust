@@ -2,3 +2,4 @@
 **/*.rs.bk
 img/Lenna.jpg.png
 img/output.*
+img/output_*

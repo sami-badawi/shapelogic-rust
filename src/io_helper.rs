@@ -84,7 +84,10 @@ pub fn image_format_converter(
         "gray" => image::ImageLuma8(im_in.to_luma()),
         "r90" => im_in.rotate90(),
         "r270" => im_in.rotate270(),
+        "blur" => image_operations::blur_operation(im_in),
         "edge" => image_operations::edge_operation(im_in),
+        "sobel_h" => image_operations::sobel_h_operation(im_in),
+        "sobel_v" => image_operations::sobel_v_operation(im_in),
         "invert" => {
             im_in.invert();
             im_in
