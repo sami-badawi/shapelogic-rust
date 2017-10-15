@@ -7,6 +7,8 @@ use std::path::Path;
 use self::image::GenericImage;
 use self::image::ImageFormat;
 
+use image_operations;
+
 // ================ extension_2_enum ================
 
 /// Should maybe be made automatic
@@ -82,10 +84,11 @@ pub fn image_format_converter(
         "gray" => image::ImageLuma8(im_in.to_luma()),
         "r90" => im_in.rotate90(),
         "r270" => im_in.rotate270(),
+        "edge" => image_operations::edge_operation(im_in),
         "invert" => {
             im_in.invert();
             im_in
-        }
+        },
         "" => im_in,
         other => {
             println!("Unknown image tranformation: {}", other);

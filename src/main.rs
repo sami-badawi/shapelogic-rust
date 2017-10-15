@@ -3,6 +3,7 @@ extern crate clap;
 
 use clap::{App, Arg};
 mod io_helper;
+mod image_operations;
 
 pub fn main() {
     let matches = App::new("ShapeLogic Rust")
