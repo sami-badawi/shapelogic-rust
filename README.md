@@ -14,7 +14,7 @@ It is a command line application that can:
 * Rotate and flip image
 * Threshold with configurable limit
 
-## How to run ##
+## Getting Started ##
 
 ```
 git clone https://github.com/sami-badawi/shapelogic-rust.git
@@ -72,4 +72,4 @@ To begin with the GUI can be rudementary.
 * SDL2 game engine bindings
 * Compile to WebAssembly and run in browser when compiler matures
 
-These are a little more involved.
+These ideas are a little more involved.
