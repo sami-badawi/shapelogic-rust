@@ -18,7 +18,7 @@ It is a command line application that can:
 
 * Get some image processing algorithms working from command line script
 * Start porting algorithms from ShapeLogic Scala
-* Figure out what to do about a GUI, possibly web based on
+* Figure out what to do about a GUI, possibly add web based GUI
 
 ## Sister project ##
 
