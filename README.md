@@ -78,3 +78,18 @@ To begin with the GUI can be rudementary.
 * Compile to WebAssembly and run in browser when compiler matures
 
 These ideas are a little more involved.
+
+## Macro Language Syntax ##
+
+In image processing you often need to run a sequence of commnds.
+The macro language will let you do all the operations in one run.
+
+```
+load img/text.png
+edge
+threshold 40
+invert
+save img/lines.png
+```
+
+If load or save is missing use the values from command line arguments.
