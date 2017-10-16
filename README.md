@@ -1,4 +1,4 @@
-# ShapeLogic Rust
+# ShapeLogic Rust #
 
 Image processing and coputer vision in Rust.
 
@@ -16,6 +16,8 @@ It is a command line application that can:
 
 ## Getting Started ##
 
+Setup Rust then:
+
 ```
 git clone https://github.com/sami-badawi/shapelogic-rust.git
 cd shapelogic-rust
@@ -26,7 +28,7 @@ open img/output.png
 open img/output.bmp
 ```
 
-## Image Operation Command List##
+## Image Operation Command List ##
 
 Current list is:
 ```
