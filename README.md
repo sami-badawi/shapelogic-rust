@@ -22,6 +22,7 @@ Setup Rust then:
 git clone https://github.com/sami-badawi/shapelogic-rust.git
 cd shapelogic-rust
 cargo build
+./target/debug/shapelogic-rust --help
 ./target/debug/shapelogic-rust --file img/Lenna.jpg --out img/output -e png -t edge
 open img/output.png
 ./target/debug/shapelogic-rust --file img/Lenna.jpg --out img/output -e bmp -t threshold -p 100
