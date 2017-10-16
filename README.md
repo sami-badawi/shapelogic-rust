@@ -12,6 +12,7 @@ It is a command line application that can:
 * Invert color
 * Load image and save it in differnet image format
 * Rotate and flip image
+* Threshold with configurable limit
 
 ## Goals ##
 
