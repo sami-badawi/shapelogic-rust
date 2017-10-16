@@ -41,7 +41,7 @@ Currently ShapeLogic Rust is a command line application.
 
 It has been remarkably easy to get started with Rust and image processing.
 
-The [Image library](https://github.com/PistonDevelopers/image) is simple and works great. It makes it easy to get to image buffer without 10 layers of indirection and heavy dependencies.
+The [Image library](https://github.com/PistonDevelopers/image) is simple and works great. It makes it easy to get to the image buffer without 10 layers of indirection and heavy dependencies.
 
 ## Goals ##
 
