@@ -57,6 +57,13 @@ pub fn main() {
     let transform = matches.value_of("transform").unwrap_or("").to_string();
     let parameter = matches.value_of("parameter").unwrap_or("").to_string();
 
-    println!("Run {}, out: {}, extension: {}, transform: {}", filename, output, extension, transform);
+    println!(
+        "Run {}, out: {}, extension: {}, transform: {}, parameter: {}",
+        filename,
+        output,
+        extension,
+        transform,
+        parameter
+    );
     io_helper::image_format_converter(&filename, &output, &extension, &transform, &parameter)
 }
