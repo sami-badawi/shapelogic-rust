@@ -18,10 +18,15 @@ pub fn extension_2_enum(extension: &str) -> ImageFormat {
     let extension_string = extension.to_owned();
     let extension_lower = extension_string.to_lowercase();
     match extension_lower.as_str() {
+        "bmp" => image::ImageFormat::BMP,
         "gif" => ImageFormat::GIF,
+        "hdr" => image::ImageFormat::HDR,
+        "ico" => image::ImageFormat::ICO,
         "jpg" | "jpeg" => ImageFormat::JPEG,
         "png" => ImageFormat::PNG,
+        "ppm" => image::ImageFormat::PPM,
         "webp" => ImageFormat::WEBP,
+        "tga" => image::ImageFormat::TGA,
         "tiff" => ImageFormat::TIFF,
         _ => ImageFormat::PNG,
     }
