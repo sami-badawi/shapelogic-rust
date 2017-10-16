@@ -49,6 +49,8 @@ The [Image library](https://github.com/PistonDevelopers/image) is simple and wor
 * Get some image processing algorithms working from command line script
 * Make a little macro language so you can run several commands in a row
 * Start porting algorithms from ShapeLogic Scala
+  * Skeletonize black and white image
+  * Vectorize lines
 * Figure out what to do about a GUI, possibly add web based GUI
 
 ## Sister Project ##
