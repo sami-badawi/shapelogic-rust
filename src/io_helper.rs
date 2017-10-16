@@ -4,7 +4,7 @@ use std;
 use std::fs::File;
 use std::path::Path;
 
-use self::image::GenericImage;
+use self::image::{DynamicImage, GenericImage};
 use self::image::ImageFormat;
 
 use image_filter;
@@ -122,9 +122,6 @@ pub fn image_format_converter(
     parameter: &str,
 ) {
     let im: image::DynamicImage = image::open(&Path::new(&input_filename)).unwrap();
-
-    let output_filename = input_to_output_name(input_filename, output_name, extension);
-
     println!(
         "Image: {} has dimensions {:?} and colors: {:?}",
         input_filename,
@@ -132,7 +129,16 @@ pub fn image_format_converter(
         im.color()
     );
     let im_out = image_transform(im, transform, parameter);
+    save_image_to_file(input_filename, output_name, extension, im_out)
+}
 
+pub fn save_image_to_file(
+    input_filename: &str,
+    output_name: &str,
+    extension: &str,
+    im_out: DynamicImage,
+) {
+    let output_filename = input_to_output_name(input_filename, output_name, extension);
     let fout = &mut File::create(&Path::new(&output_filename)).unwrap();
     let image_format = extension_2_enum(extension);
     println!("New image format: {:?}", image_format);
