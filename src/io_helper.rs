@@ -92,6 +92,7 @@ pub fn image_format_converter(
         "r90" => im_in.rotate90(),
         "r270" => im_in.rotate270(),
         "blur" => image_filter::blur_operation(im_in),
+        "checkered" => image_operations::checkered(im_in),
         "edge" => image_filter::edge_operation(im_in),
         "sobel_h" => image_filter::sobel_h_operation(im_in),
         "sobel_v" => image_filter::sobel_v_operation(im_in),

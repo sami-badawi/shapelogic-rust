@@ -10,7 +10,8 @@ pub fn main() {
     let matches = App::new("ShapeLogic Rust")
         .version("0.2.0")
         .author("Sami Badawi")
-        .about("ShapeLogic Rust, computer vision and image processing in Rust")
+        .about("ShapeLogic Rust, computer vision and image processing in Rust. Example: 
+shapelogic-rust --file img/Lenna.jpg --out img/output -e png -t edge")
         .arg(
             Arg::with_name("file")
                 .short("f")
@@ -37,7 +38,7 @@ pub fn main() {
                 .short("t")
                 .long("transform")
                 .takes_value(true)
-                .help("What transform to do on image"),
+                .help("What transform to do on image. Subcommands: \n:blur, checkered, edge, fliph, flipv, gray, invert, r270, r90, sobel_h, sobel_v, threshold"),
         )
         .arg(
             Arg::with_name("parameter")
