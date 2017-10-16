@@ -72,6 +72,45 @@ fn input_to_output_name_test() {
     assert_eq!("img/Lenna.jpg.tiff".to_owned(), result_found)
 }
 
+pub fn image_transform(
+    im: image::DynamicImage,
+    transform: &str,
+    parameter: &str,
+) -> image::DynamicImage {
+    let transform_lower = transform.trim().to_lowercase();
+    let transform_ref: &str = &transform_lower;
+    match transform_ref {
+        "fliph" => im.fliph(),
+        "flipv" => im.flipv(),
+        "gray" => image::ImageLuma8(im.to_luma()),
+        "r90" => im.rotate90(),
+        "r270" => im.rotate270(),
+        "blur" => image_filter::blur_operation(im),
+        "checkered" => image_operations::checkered(im),
+        "edge" => image_filter::edge_operation(im),
+        "sobel_h" => image_filter::sobel_h_operation(im),
+        "sobel_v" => image_filter::sobel_v_operation(im),
+        "threshold" => {
+            let limit: u8 = if parameter.is_empty() {
+                128
+            } else {
+                parameter.parse::<u8>().unwrap()
+            };
+            image_operations::threshold(im, limit)
+        }
+        "invert" => {
+            let mut rgb_img = im.clone();
+            rgb_img.invert();
+            rgb_img
+        }
+        "" => im,
+        other => {
+            println!("Unknown image tranformation: {}", other);
+            im
+        }
+    }
+}
+
 // ================ image_format_converter ================
 
 /// Change an image from one format to another
@@ -82,38 +121,8 @@ pub fn image_format_converter(
     transform: &str,
     parameter: &str,
 ) {
-    let mut im_in: image::DynamicImage = image::open(&Path::new(&input_filename)).unwrap();
-    let transform_lower = transform.trim().to_lowercase();
-    let transform_ref: &str = &transform_lower;
-    let im = match transform_ref {
-        "fliph" => im_in.fliph(),
-        "flipv" => im_in.flipv(),
-        "gray" => image::ImageLuma8(im_in.to_luma()),
-        "r90" => im_in.rotate90(),
-        "r270" => im_in.rotate270(),
-        "blur" => image_filter::blur_operation(im_in),
-        "checkered" => image_operations::checkered(im_in),
-        "edge" => image_filter::edge_operation(im_in),
-        "sobel_h" => image_filter::sobel_h_operation(im_in),
-        "sobel_v" => image_filter::sobel_v_operation(im_in),
-        "threshold" => {
-            let limit: u8 = if parameter.is_empty() {
-                128
-            } else {
-                parameter.parse::<u8>().unwrap()
-            };
-            image_operations::threshold(im_in, limit)
-        }
-        "invert" => {
-            im_in.invert();
-            im_in
-        }
-        "" => im_in,
-        other => {
-            println!("Unknown image tranformation: {}", other);
-            im_in
-        }
-    };
+    let im: image::DynamicImage = image::open(&Path::new(&input_filename)).unwrap();
+
     let output_filename = input_to_output_name(input_filename, output_name, extension);
 
     println!(
@@ -122,10 +131,11 @@ pub fn image_format_converter(
         im.dimensions(),
         im.color()
     );
+    let im_out = image_transform(im, transform, parameter);
 
     let fout = &mut File::create(&Path::new(&output_filename)).unwrap();
     let image_format = extension_2_enum(extension);
     println!("New image format: {:?}", image_format);
 
-    im.save(fout, image_format).unwrap();
+    im_out.save(fout, image_format).unwrap();
 }
