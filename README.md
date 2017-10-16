@@ -14,6 +14,23 @@ It is a command line application that can:
 * Rotate and flip image
 * Threshold with configurable limit
 
+## How to run ##
+
+```
+git clone https://github.com/sami-badawi/shapelogic-rust.git
+cd shapelogic-rust
+cargo build
+./target/debug/shapelogic-rust --file img/Lenna.jpg --out img/output -e png -t edge
+./target/debug/shapelogic-rust --file img/Lenna.jpg --out img/output -e bmp -t threshold -p 100
+```
+
+## Image operation commands ##
+
+Current list
+```
+blur, checkered, edge, fliph, flipv, gray, invert, r270, r90, sobel_h, sobel_v and threshold
+```
+
 ## Goals ##
 
 * Get some image processing algorithms working from command line script
