@@ -21,12 +21,14 @@ git clone https://github.com/sami-badawi/shapelogic-rust.git
 cd shapelogic-rust
 cargo build
 ./target/debug/shapelogic-rust --file img/Lenna.jpg --out img/output -e png -t edge
+open img/output.png
 ./target/debug/shapelogic-rust --file img/Lenna.jpg --out img/output -e bmp -t threshold -p 100
+open img/output.bmp
 ```
 
-## Image operation commands ##
+## Image Operation Command List##
 
-Current list
+Current list is:
 ```
 blur, checkered, edge, fliph, flipv, gray, invert, r270, r90, sobel_h, sobel_v and threshold
 ```
@@ -34,10 +36,11 @@ blur, checkered, edge, fliph, flipv, gray, invert, r270, r90, sobel_h, sobel_v a
 ## Goals ##
 
 * Get some image processing algorithms working from command line script
+* Make a little macro language so you can run several commands in a row
 * Start porting algorithms from ShapeLogic Scala
 * Figure out what to do about a GUI, possibly add web based GUI
 
-## Sister project ##
+## Sister Project ##
 
 This project is meant investigate how easy it is do image processing and computer vision programming in Rust, in comparison to using Scala and TypeScript/WebGL.
 
@@ -46,19 +49,27 @@ This project is meant investigate how easy it is do image processing and compute
 
 All 3 are modern languages with very sophisticated type systems.
 
-
 ## GUI Ideas ##
 
 To begin with the GUI can be rudementary.
 
+## Simple Crossplatform ##
+
 * Single page web application, possibly based on work in [ShapeLogic TypeScript](https://github.com/sami-badawi/shapelogic-typescript)
+* Cursive / ncurses old but powerful GUI show image in browser
+
+## Native Crossplatform ##
+
 * Gtk og Gnome Rust bindings
 * SDL2 game engine bindings
-* Cursive / ncurses old but powerful GUI show image in browser
 * Compile to WebAssembly and run in browser when compiler matures
+
+These are a little more involved.
 
 ## Status: v 0.2.0 Pre-alpha ##
 
 Currently ShapeLogic Rust is a command line application. 
 
-It has been remarkably easy to get started with Rust and Image lib works great.
+It has been remarkably easy to get started with Rust and image processing.
+
+The [Image library](https://github.com/PistonDevelopers/image) is simple and works great. It makes it easy to get to image buffer without 10 layers of indirection and heavy dependencies.
