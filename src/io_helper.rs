@@ -75,6 +75,7 @@ pub fn image_format_converter(
     output_name: &str,
     extension: &str,
     transform: &str,
+    parameter: &str,
 ) {
     let mut im_in: image::DynamicImage = image::open(&Path::new(&input_filename)).unwrap();
     let transform_lower = transform.trim().to_lowercase();
@@ -89,11 +90,18 @@ pub fn image_format_converter(
         "edge" => image_filter::edge_operation(im_in),
         "sobel_h" => image_filter::sobel_h_operation(im_in),
         "sobel_v" => image_filter::sobel_v_operation(im_in),
-        "threshold" => image_operations::threshold(im_in, 128),
+        "threshold" => {
+            let limit: u8 = if parameter.is_empty() {
+                128
+            } else {
+                parameter.parse::<u8>().unwrap()
+            };
+            image_operations::threshold(im_in, limit)
+        }
         "invert" => {
             im_in.invert();
             im_in
-        },
+        }
         "" => im_in,
         other => {
             println!("Unknown image tranformation: {}", other);

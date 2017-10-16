@@ -39,6 +39,13 @@ pub fn main() {
                 .takes_value(true)
                 .help("What transform to do on image"),
         )
+        .arg(
+            Arg::with_name("parameter")
+                .short("p")
+                .long("parameter")
+                .takes_value(true)
+                .help("The parameter to use e.g. for threshold"),
+        )
         .get_matches();
 
     let filename = matches
@@ -48,7 +55,8 @@ pub fn main() {
     let output = matches.value_of("out").unwrap_or("").to_string();
     let extension = matches.value_of("extension").unwrap_or("png").to_string();
     let transform = matches.value_of("transform").unwrap_or("").to_string();
+    let parameter = matches.value_of("parameter").unwrap_or("").to_string();
 
     println!("Run {}, out: {}, extension: {}, transform: {}", filename, output, extension, transform);
-    io_helper::image_format_converter(&filename, &output, &extension, &transform)
+    io_helper::image_format_converter(&filename, &output, &extension, &transform, &parameter)
 }
