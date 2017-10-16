@@ -52,7 +52,7 @@ The [Image library](https://github.com/PistonDevelopers/image) is simple and wor
 
 ## Sister Project ##
 
-This project is meant investigate how easy it is do image processing and computer vision programming in Rust, in comparison to using Scala and TypeScript/WebGL.
+This project is meant to investigate how easy it is do image processing and computer vision programming in Rust, in comparison to using Scala and TypeScript/WebGL.
 
 * [ShapeLogic Scala](https://github.com/sami-badawi/shapelogic-scala)
 * [ShapeLogic TypeScript](https://github.com/sami-badawi/shapelogic-typescript)
