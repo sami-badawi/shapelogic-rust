@@ -10,7 +10,7 @@ mod model_collection;
 
 pub fn main() {
     let matches = App::new("ShapeLogic Rust")
-        .version("0.2.0")
+        .version("0.3.0")
         .author("Sami Badawi")
         .about("ShapeLogic Rust, computer vision and image processing in Rust. Example: 
 shapelogic-rust --file img/Lenna.jpg --out img/output -e png -t edge
