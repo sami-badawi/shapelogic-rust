@@ -149,9 +149,12 @@ pub fn image_macro_converter(
         im.dimensions(),
         im.color()
     );
-    let image_command: ImageCommand = image_macro::parse_one(input_macro);
+    let image_command_vec: Vec<ImageCommand> = image_macro::parse_all(input_macro);
 
-    let im_out = image_transform(im, image_command.command, image_command.parameter);
+    let mut im_out: image::DynamicImage = im;
+    for image_command in image_command_vec.iter() {
+        im_out = image_transform(im_out, image_command.command, image_command.parameter);
+    }
     save_image_to_file(input_filename, output_name, extension, im_out)
 }
 

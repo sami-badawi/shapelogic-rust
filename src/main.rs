@@ -13,7 +13,10 @@ pub fn main() {
         .version("0.2.0")
         .author("Sami Badawi")
         .about("ShapeLogic Rust, computer vision and image processing in Rust. Example: 
-shapelogic-rust --file img/Lenna.jpg --out img/output -e png -t edge")
+shapelogic-rust --file img/Lenna.jpg --out img/output -e png -t edge
+shapelogic-rust --file img/Lenna.jpg --out img/output -e bmp -m \"edge;invert\"
+shapelogic-rust --file img/Lenna.jpg --out img/output -e bmp -m \"threshold 100;invert\"
+")
         .arg(
             Arg::with_name("file")
                 .short("f")
@@ -40,7 +43,7 @@ shapelogic-rust --file img/Lenna.jpg --out img/output -e png -t edge")
                 .short("m")
                 .long("macro")
                 .takes_value(true)
-                .help("What macro to do on image. Subcommands: \n:blur, checkered, edge, fliph, flipv, gray, invert, r270, r90, sobel_h, sobel_v, threshold"),
+                .help("Macro concatenate several transforms with a ; between: e.g.: \"threshold 100;invert\" "),
         )
         .arg(
             Arg::with_name("transform")
