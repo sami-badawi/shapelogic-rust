@@ -10,6 +10,9 @@ use self::image::ImageFormat;
 use image_filter;
 use image_operations;
 
+use image_macro;
+use model_collection::ImageCommand;
+
 // ================ extension_2_enum ================
 
 /// Should maybe be made automatic
@@ -131,6 +134,31 @@ pub fn image_format_converter(
     let im_out = image_transform(im, transform, parameter);
     save_image_to_file(input_filename, output_name, extension, im_out)
 }
+
+#[allow(dead_code)]
+pub fn image_macro_converter(
+    input_filename: &str,
+    output_name: &str,
+    extension: &str,
+    input_macro: &str,
+) {
+    let im: image::DynamicImage = image::open(&Path::new(&input_filename)).unwrap();
+    println!(
+        "Image: {} has dimensions {:?} and colors: {:?}",
+        input_filename,
+        im.dimensions(),
+        im.color()
+    );
+    let image_command_vec: Vec<ImageCommand> = image_macro::parse_all(input_macro);
+
+    let mut im_out: image::DynamicImage = im;
+    for image_command in image_command_vec.iter() {
+        im_out = image_transform(im_out, image_command.command, image_command.parameter);
+    }
+    save_image_to_file(input_filename, output_name, extension, im_out)
+}
+
+// ================ save_image_to_file ================
 
 pub fn save_image_to_file(
     input_filename: &str,

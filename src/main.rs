@@ -3,15 +3,20 @@ extern crate clap;
 
 use clap::{App, Arg};
 mod io_helper;
-mod image_operations;
 mod image_filter;
+mod image_macro;
+mod image_operations;
+mod model_collection;
 
 pub fn main() {
     let matches = App::new("ShapeLogic Rust")
-        .version("0.2.0")
+        .version("0.3.0")
         .author("Sami Badawi")
         .about("ShapeLogic Rust, computer vision and image processing in Rust. Example: 
-shapelogic-rust --file img/Lenna.jpg --out img/output -e png -t edge")
+shapelogic-rust --file img/Lenna.jpg --out img/output -e png -t edge
+shapelogic-rust --file img/Lenna.jpg --out img/output -e bmp -m \"edge;invert\"
+shapelogic-rust --file img/Lenna.jpg --out img/output -e bmp -m \"threshold 100;invert\"
+")
         .arg(
             Arg::with_name("file")
                 .short("f")
@@ -32,6 +37,13 @@ shapelogic-rust --file img/Lenna.jpg --out img/output -e png -t edge")
                 .long("extension")
                 .takes_value(true)
                 .help("New image format extension"),
+        )
+        .arg(
+            Arg::with_name("macro")
+                .short("m")
+                .long("macro")
+                .takes_value(true)
+                .help("Macro concatenate several transforms with a ; between: e.g.: \"threshold 100;invert\" "),
         )
         .arg(
             Arg::with_name("transform")
@@ -57,14 +69,21 @@ shapelogic-rust --file img/Lenna.jpg --out img/output -e png -t edge")
     let extension = matches.value_of("extension").unwrap_or("png").to_string();
     let transform = matches.value_of("transform").unwrap_or("").to_string();
     let parameter = matches.value_of("parameter").unwrap_or("").to_string();
+    let macro_input = matches.value_of("macro").unwrap_or("").to_string();
 
     println!(
-        "Run {}, out: {}, extension: {}, transform: {}, parameter: {}",
+        "Run {}, out: {}, extension: {}, transform: {}, parameter: {}, macro_input: {}",
         filename,
         output,
         extension,
         transform,
-        parameter
+        parameter,
+        macro_input
     );
-    io_helper::image_format_converter(&filename, &output, &extension, &transform, &parameter)
+    if macro_input.len() == 0 {
+      io_helper::image_format_converter(&filename, &output, &extension, &transform, &parameter)
+    }
+    else {
+      io_helper::image_macro_converter(&filename, &output, &extension, &macro_input)
+    }
 }

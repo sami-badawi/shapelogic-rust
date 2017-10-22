@@ -1,6 +1,6 @@
 [package]
 name = "shapelogic-rust"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Sami Badawi <sami.badawi@gmail.com>"]
 
 [dependencies]

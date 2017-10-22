@@ -29,6 +29,16 @@ open img/output.png
 open img/output.bmp
 ```
 
+### Use Macros ###
+
+To combine several commands use -m or --macro followed by semicolon separated commands.
+
+```
+./target/debug/shapelogic-rust --file img/Lenna.jpg --out img/output -e bmp -m "edge;invert"
+
+./target/debug/shapelogic-rust --file img/Lenna.jpg --out img/output -e bmp -m "threshold 100;invert"
+```
+
 ## Image Operation Command List ##
 
 Current list is:
@@ -36,7 +46,7 @@ Current list is:
 blur, checkered, edge, fliph, flipv, gray, invert, r270, r90, sobel_h, sobel_v and threshold
 ```
 
-## Status: v 0.2.0 Pre-alpha ##
+## Status: v 0.3.0 Alpha ##
 
 Currently ShapeLogic Rust is a command line application. 
 
