@@ -36,6 +36,13 @@ shapelogic-rust --file img/Lenna.jpg --out img/output -e png -t edge")
                 .help("New image format extension"),
         )
         .arg(
+            Arg::with_name("macro")
+                .short("m")
+                .long("macro")
+                .takes_value(true)
+                .help("What macro to do on image. Subcommands: \n:blur, checkered, edge, fliph, flipv, gray, invert, r270, r90, sobel_h, sobel_v, threshold"),
+        )
+        .arg(
             Arg::with_name("transform")
                 .short("t")
                 .long("transform")
@@ -59,14 +66,21 @@ shapelogic-rust --file img/Lenna.jpg --out img/output -e png -t edge")
     let extension = matches.value_of("extension").unwrap_or("png").to_string();
     let transform = matches.value_of("transform").unwrap_or("").to_string();
     let parameter = matches.value_of("parameter").unwrap_or("").to_string();
+    let macro_input = matches.value_of("macro").unwrap_or("").to_string();
 
     println!(
-        "Run {}, out: {}, extension: {}, transform: {}, parameter: {}",
+        "Run {}, out: {}, extension: {}, transform: {}, parameter: {}, macro_input: {}",
         filename,
         output,
         extension,
         transform,
-        parameter
+        parameter,
+        macro_input
     );
-    io_helper::image_format_converter(&filename, &output, &extension, &transform, &parameter)
+    if macro_input.len() == 0 {
+      io_helper::image_format_converter(&filename, &output, &extension, &transform, &parameter)
+    }
+    else {
+      io_helper::image_macro_converter(&filename, &output, &extension, &macro_input)
+    }
 }

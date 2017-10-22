@@ -10,6 +10,9 @@ use self::image::ImageFormat;
 use image_filter;
 use image_operations;
 
+use image_macro;
+use model_collection::ImageCommand;
+
 // ================ extension_2_enum ================
 
 /// Should maybe be made automatic
@@ -146,7 +149,9 @@ pub fn image_macro_converter(
         im.dimensions(),
         im.color()
     );
-    let im_out = image_transform(im, input_macro, "");
+    let image_command: ImageCommand = image_macro::parse_one(input_macro);
+
+    let im_out = image_transform(im, image_command.command, image_command.parameter);
     save_image_to_file(input_filename, output_name, extension, im_out)
 }
 
