@@ -132,6 +132,26 @@ pub fn image_format_converter(
     save_image_to_file(input_filename, output_name, extension, im_out)
 }
 
+#[allow(dead_code)]
+pub fn image_macro_converter(
+    input_filename: &str,
+    output_name: &str,
+    extension: &str,
+    input_macro: &str,
+) {
+    let im: image::DynamicImage = image::open(&Path::new(&input_filename)).unwrap();
+    println!(
+        "Image: {} has dimensions {:?} and colors: {:?}",
+        input_filename,
+        im.dimensions(),
+        im.color()
+    );
+    let im_out = image_transform(im, input_macro, "");
+    save_image_to_file(input_filename, output_name, extension, im_out)
+}
+
+// ================ save_image_to_file ================
+
 pub fn save_image_to_file(
     input_filename: &str,
     output_name: &str,

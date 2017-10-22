@@ -6,6 +6,7 @@ mod io_helper;
 mod image_filter;
 mod image_macro;
 mod image_operations;
+mod model_collection;
 
 pub fn main() {
     let matches = App::new("ShapeLogic Rust")

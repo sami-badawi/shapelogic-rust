@@ -7,11 +7,7 @@
 /// invert
 /// save img/lines.png
 
-#[derive(Clone, Debug, Eq, PartialEq)]
-pub struct ImageCommand<'a> {
-    command: &'a str,
-    parameter: &'a str,
-}
+use model_collection::{ImageCommand};
 
 // --------------------- parse_one ---------------------
 
