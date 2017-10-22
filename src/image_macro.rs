@@ -13,6 +13,8 @@ pub struct ImageCommand<'a> {
     parameter: &'a str,
 }
 
+// --------------------- parse_one ---------------------
+
 pub fn parse_one(macro_input: &str) -> ImageCommand {
     let index_pt = macro_input.find(' ');
     let string_len = macro_input.len();
@@ -28,6 +30,8 @@ pub fn parse_one(macro_input: &str) -> ImageCommand {
     };
     res
 }
+
+// --------------------- parse_one test ---------------------
 
 #[test]
 fn parse_one_1_test() {
@@ -47,4 +51,37 @@ fn parse_one_2_test() {
     };
     let result_found = parse_one("threshold 127");
     assert_eq!(expected, result_found)
+}
+
+// --------------------- parse_all ---------------------
+
+#[allow(dead_code)]
+pub fn parse_all(macro_input: &str) -> Vec<ImageCommand> {
+    let lines: Vec<&str> = macro_input.split(';').collect();
+    let res: Vec<ImageCommand> = lines.iter().map(|line| parse_one(line)).collect();
+    res
+}
+
+// --------------------- parse_all test ---------------------
+
+#[test]
+fn parse_all_1_test() {
+    let expected = ImageCommand {
+        command: "edge",
+        parameter: "",
+    };
+    let result_found = parse_all("edge");
+    assert_eq!(expected, result_found[0]);
+    assert_eq!(1, result_found.len())
+}
+
+#[test]
+fn parse_all_2_test() {
+    let expected = ImageCommand {
+        command: "threshold",
+        parameter: "127",
+    };
+    let result_found = parse_all("threshold 127");
+    assert_eq!(expected, result_found[0]);
+    assert_eq!(1, result_found.len())
 }
