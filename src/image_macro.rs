@@ -58,7 +58,11 @@ fn parse_one_2_test() {
 #[allow(dead_code)]
 pub fn parse_all(macro_input: &str) -> Vec<ImageCommand> {
     let lines: Vec<&str> = macro_input.split(';').collect();
-    let res: Vec<ImageCommand> = lines.iter().map(|line| parse_one(line)).collect();
+    let res: Vec<ImageCommand> = lines
+        .iter()
+        .filter(|line_e| 0 < line_e.trim().len())
+        .map(|line| parse_one(line))
+        .collect();
     res
 }
 
