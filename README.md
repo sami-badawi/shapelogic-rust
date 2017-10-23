@@ -11,6 +11,7 @@ It is a command line application that can:
 * Edge detection
 * Invert color
 * Load image and save it in differnet image format
+* Macro commands / combined commands
 * Rotate and flip image
 * Threshold with configurable limit
 
@@ -29,16 +30,6 @@ open img/output.png
 open img/output.bmp
 ```
 
-### Use Macros ###
-
-To combine several commands use -m or --macro followed by semicolon separated commands.
-
-```
-./target/debug/shapelogic-rust --file img/Lenna.jpg --out img/output -e bmp -m "edge;invert"
-
-./target/debug/shapelogic-rust --file img/Lenna.jpg --out img/output -e bmp -m "threshold 100;invert"
-```
-
 ## Image Operation Command List ##
 
 Current list is:
@@ -46,18 +37,29 @@ Current list is:
 blur, checkered, edge, fliph, flipv, gray, invert, r270, r90, sobel_h, sobel_v and threshold
 ```
 
+### Use Macros ###
+
+To combine several commands use -m or --macro followed by semicolon separated commands.
+
+```
+./target/debug/shapelogic-rust --file img/Lenna.jpg --out img/output -e bmp --macro "edge;invert"
+
+./target/debug/shapelogic-rust --file img/Lenna.jpg --out img/output -e bmp -m "edge;gray;invert;threshold 180"
+```
+
+The last macro command is what you would use to create a binary edge image that you could give to skeletonize algorithm.
+
 ## Status: v 0.3.0 Alpha ##
 
 Currently ShapeLogic Rust is a command line application. 
+With the simple macro commands ShapeLogic Rust can do useful work.
 
 It has been remarkably easy to get started with Rust and image processing.
 
 The [Image library](https://github.com/PistonDevelopers/image) is simple and works great. It makes it easy to get to the image buffer without 10 layers of indirection and heavy dependencies.
 
-## Goals ##
+## Next Goals ##
 
-* Get some image processing algorithms working from command line script
-* Make a little macro language so you can run several commands in a row
 * Start porting algorithms from ShapeLogic Scala
   * Skeletonize black and white image
   * Vectorize lines
@@ -88,18 +90,3 @@ To begin with the GUI can be rudementary.
 * Compile to WebAssembly and run in browser when compiler matures
 
 These ideas are a little more involved.
-
-## Macro Language Syntax ##
-
-In image processing you often need to run a sequence of commnds.
-The macro language will let you do all the operations in one run.
-
-```
-load img/text.png
-edge
-threshold 40
-invert
-save img/lines.png
-```
-
-If load or save is missing use the values from command line arguments.
