@@ -4,7 +4,7 @@ use std;
 use std::fs::File;
 use std::path::Path;
 
-use self::image::{DynamicImage, GenericImage};
+use self::image::DynamicImage;
 use self::image::ImageFormat;
 
 use image_filter;
@@ -125,13 +125,9 @@ pub fn image_format_converter(
     parameter: &str,
 ) {
     let im: image::DynamicImage = image::open(&Path::new(&input_filename)).unwrap();
-    println!(
-        "Image: {} has dimensions {:?} and colors: {:?}",
-        input_filename,
-        im.dimensions(),
-        im.color()
-    );
+    image_operations::image_info(&im, &input_filename);
     let im_out = image_transform(im, transform, parameter);
+    image_operations::image_info(&im_out, &output_name);
     save_image_to_file(input_filename, output_name, extension, im_out)
 }
 
@@ -143,12 +139,8 @@ pub fn image_macro_converter(
     input_macro: &str,
 ) {
     let im: image::DynamicImage = image::open(&Path::new(&input_filename)).unwrap();
-    println!(
-        "Image: {} has dimensions {:?} and colors: {:?}",
-        input_filename,
-        im.dimensions(),
-        im.color()
-    );
+    image_operations::image_info(&im, &input_filename);
+
     let image_command_vec: Vec<ImageCommand> = image_macro::parse_all(input_macro);
 
     let mut im_out: image::DynamicImage = im;
@@ -171,5 +163,6 @@ pub fn save_image_to_file(
     let image_format = extension_2_enum(extension);
     println!("New image format: {:?}", image_format);
 
+    image_operations::image_info(&im_out, &output_name);
     im_out.save(fout, image_format).unwrap();
 }
