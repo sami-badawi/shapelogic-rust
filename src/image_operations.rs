@@ -3,6 +3,16 @@ extern crate image;
 
 use self::image::{DynamicImage, GenericImage, Pixel};
 
+
+pub fn image_info(im: &DynamicImage, input_filename: &str)  {
+    println!(
+        "Image: {} has dimensions {:?} and colors: {:?}",
+        input_filename,
+        im.dimensions(),
+        im.color()
+    );
+}
+
 pub fn threshold(img: DynamicImage, limit: u8) -> DynamicImage {
     let mut out_image = img.brighten(0);
     let height = img.height();
