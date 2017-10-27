@@ -13,23 +13,24 @@ pub fn hello_skeletonize() {
 
 
 #[allow(dead_code)]
-pub struct Skeletonize {
-    input_img: GrayImage,
+pub struct Skeletonize<'a> {
+    input_img: &'a GrayImage,
     inverted: bool,
     find_outline: bool,
     output_img: GrayImage,
 }
 
-impl Skeletonize {
+impl<'a> Skeletonize<'a> {
     #[allow(dead_code)]
-    pub fn new(input_image: &GrayImage) -> Skeletonize {
+    pub fn new(input_image: &'a GrayImage) -> Skeletonize<'a> {
         let imgx = input_image.width();
         let imgy = input_image.height();
         let imgbuf = image::ImageBuffer::new(imgx, imgy);
         let output = image::ImageLuma8(imgbuf);
         let output_img = output.to_luma();
+
         Skeletonize {
-            input_img: input_image.clone(),
+            input_img: input_image,
             inverted: false,
             find_outline: true,
             output_img: output_img,
