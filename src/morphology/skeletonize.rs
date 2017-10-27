@@ -11,6 +11,24 @@ pub fn hello_skeletonize() {
     println!("Hello {}", "Skeletonize")
 }
 
+// ---------------------------------------
+
+/// Create empty gray image of given size
+/// Should be moved
+pub fn make_gray(imgx: u32, imgy: u32) -> GrayImage {
+    let imgbuf = image::ImageBuffer::new(imgx, imgy);
+    let output = image::ImageLuma8(imgbuf);
+    output.to_luma()
+}
+
+#[test]
+fn make_gray_test() {
+    let new_gray = make_gray(4, 4);
+    let actual = new_gray.dimensions();
+    assert_eq!((4, 4), actual)
+}
+
+// ---------------------------------------
 
 #[allow(dead_code)]
 pub struct Skeletonize<'a> {
@@ -25,9 +43,7 @@ impl<'a> Skeletonize<'a> {
     pub fn new(input_image: &'a GrayImage) -> Skeletonize<'a> {
         let imgx = input_image.width();
         let imgy = input_image.height();
-        let imgbuf = image::ImageBuffer::new(imgx, imgy);
-        let output = image::ImageLuma8(imgbuf);
-        let output_img = output.to_luma();
+        let output_img = make_gray(imgx, imgy);
 
         Skeletonize {
             input_img: input_image,
