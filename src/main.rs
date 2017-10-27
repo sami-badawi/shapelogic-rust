@@ -3,7 +3,7 @@ extern crate clap;
 
 use clap::{App, Arg};
 
-mod binary;
+mod morphology;
 mod io_helper;
 mod image_filter;
 mod image_macro;
