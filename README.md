@@ -6,6 +6,9 @@ Image processing and coputer vision in Rust.
 
 It is a command line application that can:
 
+* Binary morphology
+  * Dilate
+  * Erode
 * Blur image
 * Convert to gray
 * Edge detection
@@ -34,7 +37,7 @@ open img/output.bmp
 
 Current list is:
 ```
-blur, checkered, edge, fliph, flipv, gray, invert, r270, r90, sobel_h, sobel_v and threshold
+blur, checkered, dilate, edge, erode, fliph, flipv, gray, invert, r270, r90, sobel_h, sobel_v and threshold
 ```
 
 ### Use Macros ###
@@ -45,6 +48,8 @@ To combine several commands use -m or --macro followed by semicolon separated co
 ./target/debug/shapelogic-rust --file img/Lenna.jpg --out img/output -e bmp --macro "edge;invert"
 
 ./target/debug/shapelogic-rust --file img/Lenna.jpg --out img/output -e bmp -m "edge;gray;invert;threshold 180"
+
+./target/debug/shapelogic-rust --file img/Lenna.jpg --out img/output -e bmp -m "edge;gray;invert;threshold 180;erode"
 ```
 
 The last macro command is what you would use to create a binary edge image that you could give to skeletonize algorithm.
