@@ -23,6 +23,7 @@ pub fn make_gray(imgx: u32, imgy: u32) -> GrayImage {
 #[cfg(test)]
 mod test {
 
+    use self::image::{ImageBuffer, Luma};
     use super::{image, make_gray, make_gray_buffer};
 
     #[test]
@@ -30,8 +31,6 @@ mod test {
         let new_gray = make_gray_buffer(4, 4);
         let actual = new_gray.dimensions();
         assert_eq!((4, 4), actual);
-
-        // let pixel1 = new_gray[(100, 100)];
         let pixel2 = new_gray.get_pixel(0, 0);
         assert_eq!(&image::Luma([0u8]), pixel2);
     }
@@ -39,8 +38,25 @@ mod test {
     #[test]
     fn make_gray_buffer_into_raw_test() {
         let new_gray = make_gray_buffer(4, 4);
-        let new_gray_data: Vec<u8> = new_gray.into_raw();
-        assert_eq!(16, new_gray_data.len());
+        {
+            let mut new_gray_data: Vec<u8> = new_gray.into_raw();
+            assert_eq!(16, new_gray_data.len());
+            new_gray_data[0] = 255u8;
+            let new_gray_data2: Option<ImageBuffer<Luma<u8>, Vec<u8>>> = ImageBuffer::from_vec(4,4,new_gray_data);
+            match new_gray_data2 {
+                Some(data) => {
+                    let pixel2 = data.get_pixel(0, 0);
+                    assert_eq!(&image::Luma([255u8]), pixel2);
+                }
+                None => {
+                    assert_eq!(1,2)
+                }
+            }
+        }
+        // This did not work, you cannot consume an image buffer with into_raw() and get use it after.
+        //
+        // let pixel2 = new_gray.get_pixel(0, 0);
+        // assert_eq!(&image::Luma([255u8]), pixel2);
     }
 
     #[test]
