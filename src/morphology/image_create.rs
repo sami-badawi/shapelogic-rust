@@ -18,6 +18,19 @@ pub fn make_gray(imgx: u32, imgy: u32) -> GrayImage {
     output.to_luma()
 }
 
+#[allow(dead_code)]
+pub fn make_raw_buffer(imgx: u32, imgy: u32) -> Vec<u8> {
+  let final_length: usize = (imgx * imgy) as usize;
+  let mut vec = Vec::with_capacity(final_length);
+  vec.resize(final_length, 0u8);
+  vec
+}
+
+#[allow(dead_code)]
+pub fn raw_buffer2image_buffer(imgx: u32, imgy: u32, raw_buffer: Vec<u8>) -> Option<ImageBuffer<Luma<u8>, Vec<u8>>> {
+    ImageBuffer::from_vec(imgx,imgy,raw_buffer)
+}
+
 // ---------------------------------------
 
 #[cfg(test)]
