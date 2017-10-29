@@ -18,8 +18,8 @@ const FOREGROUND_COLOR: u8 = 255;
 pub fn dilate(image: &GrayImage) -> DynamicImage {
     let (width, height) = image.dimensions();
     let mut imgbuf = image::ImageBuffer::new(width, height);
-    for y in 1..height - 1 {
-        for x in 1..width - 1 {
+    for y in 1..(height - 2) {
+        for x in 1..(width - 2) {
             let mut gray_value: u8 = BACKGROUND_COLOR;
             for xy in &CYCLE_POINTS_2D {
                 let p = image.get_pixel(x + xy.0 as u32, y + xy.1 as u32);
