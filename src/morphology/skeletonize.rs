@@ -5,6 +5,7 @@ extern crate image;
 
 use self::image::{DynamicImage, GrayImage, ImageLuma8};
 use morphology::image_create;
+use morphology::morphology_data::{TABLE2, TABLE};
 
 #[allow(dead_code)]
 const BACKGROUND_COLOR: u8 = 0;
@@ -35,6 +36,7 @@ pub struct Skeletonize<'a> {
     inverted: bool,
     find_outline: bool,
     stride: u32,
+    pass: u32,
 }
 
 impl<'a> Skeletonize<'a> {
@@ -49,6 +51,7 @@ impl<'a> Skeletonize<'a> {
             inverted: false,
             find_outline: true,
             stride: width,
+            pass: 0,
         }
     }
 
@@ -59,9 +62,10 @@ impl<'a> Skeletonize<'a> {
         buffer
     }
 
-    #[allow(dead_code, )]
+    #[allow(dead_code)]
     pub fn thin(&self) -> (Vec<u8>, bool) {
         let rowOffset = self.stride as usize;
+        let table = &TABLE;
 
         let mut p1: u8 = 0;
         let mut p2: u8 = 0;
@@ -84,49 +88,64 @@ impl<'a> Skeletonize<'a> {
         let in_buffer = &self.input_buffer;
         let bg_color = BACKGROUND_COLOR;
 
-        let mut buffer = self.make_buffer();
+        let mut outputPixels = self.make_buffer();
         let (width, height) = self.input_img.dimensions();
         for y in 1..(height - 2) {
             for x in 1..(width - 2) {
                 p5 = in_buffer[offset];
                 v = p5;
-                // if v != bg_color {
-                  p1 = in_buffer[offset - rowOffset - 1];
-                  p2 = in_buffer[offset - rowOffset];
-                  p3 = in_buffer[offset - rowOffset + 1];
-                  p4 = in_buffer[offset - 1];
-                  p6 = in_buffer[offset + 1];
-                  p7 = in_buffer[offset + rowOffset - 1];
-                  p8 = in_buffer[offset + rowOffset];
-                  p9 = in_buffer[offset + rowOffset + 1];
-                  index = 0;
-                  if p1 != bg_color {index |= 1u32}
-                  if p2 != bg_color {index |= 2u32}
-                  if p3 != bg_color {index |= 4u32}
-                  if p6 != bg_color {index |= 8u32}
-                  if p9 != bg_color {index |= 16u32}
-                  if p8 != bg_color {index |= 32u32}
-                  if p7 != bg_color {index |= 64u32}
-                  if p4 != bg_color {index |= 128u32}
-                //   code = table(index)
-                //   if ((pass & 1) == 1) { //odd pass
-                //     if (code == 2 || code == 3) {
-                //       v = bg_color
-                //       pixels_removed += 1
-                //     }
-                //   } else { //even pass
-                //     if (code == 1 || code == 3) {
-                //       v = bg_color
-                //       pixels_removed += 1
-                //     }
-                //   }
-                // // }
-                // //         outputPixels(offset) = v
-                // // offset += 1
+                if v != bg_color {
+                p1 = in_buffer[offset - rowOffset - 1];
+                p2 = in_buffer[offset - rowOffset];
+                p3 = in_buffer[offset - rowOffset + 1];
+                p4 = in_buffer[offset - 1];
+                p6 = in_buffer[offset + 1];
+                p7 = in_buffer[offset + rowOffset - 1];
+                p8 = in_buffer[offset + rowOffset];
+                p9 = in_buffer[offset + rowOffset + 1];
+                index = 0;
+                if p1 != bg_color {
+                    index |= 1u32
+                }
+                if p2 != bg_color {
+                    index |= 2u32
+                }
+                if p3 != bg_color {
+                    index |= 4u32
+                }
+                if p6 != bg_color {
+                    index |= 8u32
+                }
+                if p9 != bg_color {
+                    index |= 16u32
+                }
+                if p8 != bg_color {
+                    index |= 32u32
+                }
+                if p7 != bg_color {
+                    index |= 64u32
+                }
+                if p4 != bg_color {
+                    index |= 128u32
+                }
+                code = table[index as usize];
+                  if (self.pass & 1) == 1 { //odd pass
+                    if code == 2 || code == 3 {
+                      v = bg_color;
+                      pixels_removed += 1;
+                    }
+                  } else { //even pass
+                    if code == 1 || code == 3 {
+                      v = bg_color;
+                      pixels_removed += 1;
+                    }
+                  }
+                }
+                outputPixels[offset] = v;
+                offset += 1;
             }
         }
-        buffer[0] = FOREGROUND_COLOR;
-        (buffer, false)
+        (outputPixels, false)
     }
 
     #[allow(dead_code)]
