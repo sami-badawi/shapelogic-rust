@@ -23,7 +23,18 @@ pub fn make_gray(imgx: u32, imgy: u32) -> GrayImage {
 #[cfg(test)]
 mod test {
 
-    use super::{image, make_gray};
+    use super::{image, make_gray, make_gray_buffer};
+
+    #[test]
+    fn make_gray_buffer_test() {
+        let new_gray = make_gray_buffer(4, 4);
+        let actual = new_gray.dimensions();
+        assert_eq!((4, 4), actual);
+
+        // let pixel1 = new_gray[(100, 100)];
+        let pixel2 = new_gray.get_pixel(0, 0);
+        assert_eq!(&image::Luma([0u8]), pixel2);
+    }
 
     #[test]
     fn make_gray_test() {
