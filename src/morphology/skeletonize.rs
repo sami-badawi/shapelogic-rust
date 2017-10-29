@@ -33,21 +33,44 @@ pub struct Skeletonize<'a> {
     input_img: &'a GrayImage,
     inverted: bool,
     find_outline: bool,
-    output_img: GrayImage,
+    stride: u32,
 }
 
 impl<'a> Skeletonize<'a> {
     #[allow(dead_code)]
     pub fn new(input_image: &'a GrayImage) -> Skeletonize<'a> {
-        let imgx = input_image.width();
-        let imgy = input_image.height();
-        let output_img = image_create::make_gray(imgx, imgy);
+        let width = input_image.width();
 
         Skeletonize {
             input_img: input_image,
             inverted: false,
             find_outline: true,
-            output_img: output_img,
+            stride: width,
+        }
+    }
+
+    #[allow(dead_code)]
+    pub fn make_buffer(&self) -> Vec<u8> {
+        let (width, height) = self.input_img.dimensions();
+        let buffer = image_create::make_raw_buffer(width, height);
+        buffer
+    }
+
+    #[allow(dead_code)]
+    pub fn thin(&self, buffer: Vec<u8>) -> Vec<u8> {
+        buffer
+    }
+
+    #[allow(dead_code)]
+    pub fn skeletonize(image: &GrayImage) -> Option<DynamicImage> {
+        let (width, height) = image.dimensions();
+        let mut buffer = image_create::make_raw_buffer(width, height);
+        buffer[0] = FOREGROUND_COLOR;
+        println!("buffer.len() {}", buffer.len());
+        let imgbuf_opt = image_create::raw_buffer2image_buffer(width, height, buffer);
+        match imgbuf_opt {
+            Some(imgbuf) => Some(ImageLuma8(imgbuf)),
+            None => None,
         }
     }
 }
