@@ -2,6 +2,8 @@
 extern crate clap;
 
 use clap::{App, Arg};
+
+mod morphology;
 mod io_helper;
 mod image_filter;
 mod image_macro;
@@ -10,7 +12,7 @@ mod model_collection;
 
 pub fn main() {
     let matches = App::new("ShapeLogic Rust")
-        .version("0.3.0")
+        .version("0.4.0")
         .author("Sami Badawi")
         .about("ShapeLogic Rust, computer vision and image processing in Rust. Example: 
 shapelogic-rust --file img/Lenna.jpg --out img/output -e png -t edge
