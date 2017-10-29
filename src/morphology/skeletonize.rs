@@ -63,89 +63,90 @@ impl<'a> Skeletonize<'a> {
     }
 
     #[allow(dead_code)]
-    pub fn thin(&self) -> (Vec<u8>, bool) {
-        let rowOffset = self.stride as usize;
-        let table = &TABLE;
+    pub fn thin(&self, table: &[u32]) -> (Vec<u8>, bool) {
+        let row_offset = self.stride as usize;
 
-        let mut p1: u8 = 0;
-        let mut p2: u8 = 0;
-        let mut p3: u8 = 0;
-        let mut p4: u8 = 0;
-        let mut p5: u8 = 0;
-        let mut p6: u8 = 0;
-        let mut p7: u8 = 0;
-        let mut p8: u8 = 0;
-        let mut p9: u8 = 0;
+        let mut p1: u8;
+        let mut p2: u8;
+        let mut p3: u8;
+        let mut p4: u8;
+        let mut p5: u8;
+        let mut p6: u8;
+        let mut p7: u8;
+        let mut p8: u8;
+        let mut p9: u8;
 
 
-        let mut v: u8 = 0;
-        let mut index: u32 = 0;
-        let mut code: u32 = 0;
-        let mut offset: usize = 0;
+        let mut v: u8;
+        let mut index: u32;
+        let mut code: u32;
+        let mut offset: usize;
 
         let mut pixels_removed: u32 = 0;
-        let mut count: u32 = 100;
         let in_buffer = &self.input_buffer;
         let bg_color = BACKGROUND_COLOR;
 
-        let mut outputPixels = self.make_buffer();
+        let mut output_pixels = self.make_buffer();
         let (width, height) = self.input_img.dimensions();
         for y in 1..(height - 2) {
+            offset = (1 + y as usize * row_offset) as usize;
             for x in 1..(width - 2) {
                 p5 = in_buffer[offset];
                 v = p5;
                 if v != bg_color {
-                p1 = in_buffer[offset - rowOffset - 1];
-                p2 = in_buffer[offset - rowOffset];
-                p3 = in_buffer[offset - rowOffset + 1];
-                p4 = in_buffer[offset - 1];
-                p6 = in_buffer[offset + 1];
-                p7 = in_buffer[offset + rowOffset - 1];
-                p8 = in_buffer[offset + rowOffset];
-                p9 = in_buffer[offset + rowOffset + 1];
-                index = 0;
-                if p1 != bg_color {
-                    index |= 1u32
-                }
-                if p2 != bg_color {
-                    index |= 2u32
-                }
-                if p3 != bg_color {
-                    index |= 4u32
-                }
-                if p6 != bg_color {
-                    index |= 8u32
-                }
-                if p9 != bg_color {
-                    index |= 16u32
-                }
-                if p8 != bg_color {
-                    index |= 32u32
-                }
-                if p7 != bg_color {
-                    index |= 64u32
-                }
-                if p4 != bg_color {
-                    index |= 128u32
-                }
-                code = table[index as usize];
-                  if (self.pass & 1) == 1 { //odd pass
-                    if code == 2 || code == 3 {
-                      v = bg_color;
-                      pixels_removed += 1;
+                    p1 = in_buffer[offset - row_offset - 1];
+                    p2 = in_buffer[offset - row_offset];
+                    p3 = in_buffer[offset - row_offset + 1];
+                    p4 = in_buffer[offset - 1];
+                    p6 = in_buffer[offset + 1];
+                    p7 = in_buffer[offset + row_offset - 1];
+                    p8 = in_buffer[offset + row_offset];
+                    p9 = in_buffer[offset + row_offset + 1];
+                    index = 0;
+                    if p1 != bg_color {
+                        index |= 1u32
                     }
-                  } else { //even pass
-                    if code == 1 || code == 3 {
-                      v = bg_color;
-                      pixels_removed += 1;
+                    if p2 != bg_color {
+                        index |= 2u32
                     }
-                  }
+                    if p3 != bg_color {
+                        index |= 4u32
+                    }
+                    if p6 != bg_color {
+                        index |= 8u32
+                    }
+                    if p9 != bg_color {
+                        index |= 16u32
+                    }
+                    if p8 != bg_color {
+                        index |= 32u32
+                    }
+                    if p7 != bg_color {
+                        index |= 64u32
+                    }
+                    if p4 != bg_color {
+                        index |= 128u32
+                    }
+                    code = table[index as usize];
+                    if (self.pass & 1) == 1 {
+                        //odd pass
+                        if code == 2 || code == 3 {
+                            v = bg_color;
+                            pixels_removed += 1;
+                        }
+                    } else {
+                        //even pass
+                        if code == 1 || code == 3 {
+                            v = bg_color;
+                            pixels_removed += 1;
+                        }
+                    }
                 }
-                outputPixels[offset] = v;
+                output_pixels[offset] = v;
                 offset += 1;
             }
         }
-        (outputPixels, false)
+        (output_pixels, 0 < pixels_removed)
     }
 
     #[allow(dead_code)]
