@@ -21,15 +21,16 @@ const MAX_PASS: u32 = 100;
 
 ///
 #[allow(dead_code)]
-pub fn skeletonize(image: &GrayImage) -> Option<DynamicImage> {
+pub fn skeletonize<'a>(image: &'a GrayImage) -> DynamicImage {
+    let mut skeletonize = Skeletonize::new(image);
     let (width, height) = image.dimensions();
-    let mut buffer = image_create::make_raw_buffer(width, height);
-    buffer[0] = FOREGROUND_COLOR;
+    skeletonize.skeletonize();
+    let buffer = skeletonize.buffer_even;
     println!("buffer.len() {}", buffer.len());
     let imgbuf_opt = image_create::raw_buffer2image_buffer(width, height, buffer);
     match imgbuf_opt {
-        Some(imgbuf) => Some(ImageLuma8(imgbuf)),
-        None => None,
+        Some(imgbuf) => ImageLuma8(imgbuf),
+        None => ImageLuma8(image.clone()),
     }
 }
 
