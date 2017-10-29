@@ -54,7 +54,7 @@ To combine several commands use -m or --macro followed by semicolon separated co
 
 The last macro command is what you would use to create a binary edge image that you could give to skeletonize algorithm.
 
-## Status: v 0.3.0 Alpha ##
+## Status: v 0.4.0 Alpha ##
 
 Currently ShapeLogic Rust is a command line application. 
 With the simple macro commands ShapeLogic Rust can do useful work.
