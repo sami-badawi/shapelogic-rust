@@ -3,15 +3,29 @@
 /// This expect a very specific format that is a grayscala 1 byte image
 extern crate image;
 
-use self::image::GrayImage;
+use self::image::{DynamicImage, GrayImage, ImageLuma8};
 use morphology::image_create;
 
-/// Just to test that the binary sub module is created correctly
 #[allow(dead_code)]
-pub fn hello_skeletonize() {
-    println!("Hello {}", "Skeletonize")
+const BACKGROUND_COLOR: u8 = 0;
+#[allow(dead_code)]
+const FOREGROUND_COLOR: u8 = 255;
+
+///
+#[allow(dead_code)]
+pub fn skeletonize(image: &GrayImage) -> Option<DynamicImage> {
+    let (width, height) = image.dimensions();
+    let mut buffer = image_create::make_raw_buffer(width, height);
+    buffer[0] = FOREGROUND_COLOR;
+    println!("buffer.len() {}", buffer.len());
+    let imgbuf_opt = image_create::raw_buffer2image_buffer(width, height, buffer);
+    match imgbuf_opt {
+        Some(imgbuf) => Some(ImageLuma8(imgbuf)),
+        None => None,
+    }
 }
-// ---------------------------------------
+
+// ------------------ Helper class not sure if needed ---------------------
 
 
 #[allow(dead_code)]
