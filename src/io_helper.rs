@@ -10,6 +10,7 @@ use self::image::ImageFormat;
 use image_filter;
 use image_operations;
 use morphology::dilate_erode::{dilate_dynamic, erode_dynamic};
+use morphology::skeletonize::skeletonize_dynamic;
 
 use image_macro;
 use model_collection::ImageCommand;
@@ -94,6 +95,7 @@ pub fn image_transform(
         "dilate" => dilate_dynamic(&im),
         "erode" => erode_dynamic(&im),
         "edge" => image_filter::edge_operation(im),
+        "skeleton" => skeletonize_dynamic(&im),
         "sobel_h" => image_filter::sobel_h_operation(im),
         "sobel_v" => image_filter::sobel_v_operation(im),
         "threshold" => {

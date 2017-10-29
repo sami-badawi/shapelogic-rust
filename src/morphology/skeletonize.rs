@@ -34,6 +34,20 @@ pub fn skeletonize<'a>(image: &'a GrayImage) -> DynamicImage {
     }
 }
 
+pub fn skeletonize_dynamic(image: &DynamicImage) -> DynamicImage {
+    match *image {
+        ImageLuma8(ref gray_image) => skeletonize(gray_image),
+        _ => {
+            let color_type = image.color();
+            println!(
+                "color_type of image not right for dilate: {:?}",
+                &color_type
+            );
+            image.clone()
+        }
+    }
+}
+
 // ------------------ Helper class not sure if needed ---------------------
 
 #[allow(dead_code)]
