@@ -1,13 +1,19 @@
 /// image_create.rs
 /// Helpers that create images
-
 extern crate image;
 
-use self::image::GrayImage;
+use self::image::{GrayImage, ImageBuffer, Luma};
+
+/// The ImageBuffer is the main part of an image
+/// It somehow defaults to using Luma<u8> which is gray
+pub fn make_gray_buffer(imgx: u32, imgy: u32) -> ImageBuffer<Luma<u8>, Vec<u8>> {
+    let imgbuf = image::ImageBuffer::new(imgx, imgy);
+    imgbuf
+}
 
 /// Create empty gray image of given size
 pub fn make_gray(imgx: u32, imgy: u32) -> GrayImage {
-    let imgbuf = image::ImageBuffer::new(imgx, imgy);
+    let imgbuf = make_gray_buffer(imgx, imgy);
     let output = image::ImageLuma8(imgbuf);
     output.to_luma()
 }
