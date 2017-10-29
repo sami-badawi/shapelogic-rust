@@ -4,7 +4,7 @@
 extern crate image;
 
 #[allow(unused_imports)]
-use self::image::{DynamicImage, GenericImage, GrayImage, Pixel};
+use self::image::{DynamicImage, GenericImage, GrayImage, Luma, Pixel};
 use morphology::morphology_data::CYCLE_POINTS_2D;
 
 #[allow(dead_code)]
@@ -17,13 +17,18 @@ const FOREGROUND_COLOR: u8 = 255;
 #[allow(dead_code)]
 pub fn dilate(image: &GrayImage) -> DynamicImage {
     let (width, height) = image.dimensions();
-    let imgbuf = image::ImageBuffer::new(width, height);
+    let mut imgbuf = image::ImageBuffer::new(width, height);
     for y in 1..height - 1 {
         for x in 1..width - 1 {
+            let mut gray_value: u8 = BACKGROUND_COLOR;
             for _xy in &CYCLE_POINTS_2D {
-              let _p = image.get_pixel(x as u32, y as u32);
-
+                let p = image.get_pixel(x as u32, y as u32);
+                if p.data == [FOREGROUND_COLOR] {
+                    gray_value = FOREGROUND_COLOR;
+                    break;
+                }
             }
+            imgbuf.put_pixel(x as u32, y as u32, Luma { data: [gray_value] });
         }
     }
     let res = image::ImageLuma8(imgbuf);
