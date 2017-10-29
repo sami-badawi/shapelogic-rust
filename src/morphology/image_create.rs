@@ -37,6 +37,13 @@ mod test {
     }
 
     #[test]
+    fn make_gray_buffer_into_raw_test() {
+        let new_gray = make_gray_buffer(4, 4);
+        let new_gray_data = new_gray.into_raw();
+        assert_eq!(16, new_gray_data.len());
+    }
+
+    #[test]
     fn make_gray_test() {
         let new_gray = make_gray(4, 4);
         let actual = new_gray.dimensions();
