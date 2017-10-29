@@ -4,4 +4,5 @@
 
 pub mod dilate_erode;
 pub mod image_create;
+pub mod morphology_data;
 pub mod skeletonize;
