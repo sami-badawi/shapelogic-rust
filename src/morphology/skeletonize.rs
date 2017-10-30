@@ -9,10 +9,10 @@ use morphology::morphology_data::{TABLE2, TABLE};
 
 // ------------------ Constants ---------------------
 
-#[allow(dead_code)]
-const BACKGROUND_COLOR: u8 = 0;
-#[allow(dead_code)]
-const FOREGROUND_COLOR: u8 = 255;
+// #[allow(dead_code)]
+// const BACKGROUND_COLOR: u8 = 0;
+// #[allow(dead_code)]
+// const FOREGROUND_COLOR: u8 = 255;
 
 const VERBOSE_LOGGING: bool = true;
 const MAX_PASS: u32 = 100;
@@ -21,8 +21,8 @@ const MAX_PASS: u32 = 100;
 
 ///
 #[allow(dead_code)]
-pub fn skeletonize<'a>(image: &'a GrayImage) -> DynamicImage {
-    let mut skeletonize = Skeletonize::new(image);
+pub fn skeletonize<'a>(image: &'a GrayImage, invert: bool) -> DynamicImage {
+    let mut skeletonize = Skeletonize::new(image, invert);
     let (width, height) = image.dimensions();
     skeletonize.skeletonize();
     let buffer = skeletonize.buffer_even;
@@ -34,9 +34,9 @@ pub fn skeletonize<'a>(image: &'a GrayImage) -> DynamicImage {
     }
 }
 
-pub fn skeletonize_dynamic(image: &DynamicImage) -> DynamicImage {
+pub fn skeletonize_dynamic(image: &DynamicImage, invert: bool) -> DynamicImage {
     match *image {
-        ImageLuma8(ref gray_image) => skeletonize(gray_image),
+        ImageLuma8(ref gray_image) => skeletonize(gray_image, invert),
         _ => {
             let color_type = image.color();
             println!(
@@ -58,22 +58,28 @@ pub struct Skeletonize<'a> {
     inverted: bool,
     find_outline: bool,
     stride: u32,
+    bg_color: u8,
+    fg_color: u8,
 }
 
 impl<'a> Skeletonize<'a> {
     #[allow(dead_code)]
-    pub fn new(input_image: &'a GrayImage) -> Skeletonize<'a> {
+    pub fn new(input_image: &'a GrayImage, inverted: bool) -> Skeletonize<'a> {
         let width = input_image.width();
         let raw0 = input_image.clone().into_raw();
         let raw1 = input_image.clone().into_raw();
+        let bg_color: u8 = if inverted {0} else {255};
+        let fg_color: u8 = if inverted {255} else {0};
 
         Skeletonize {
             input_img: input_image,
             buffer_even: raw0,
             buffer_odd: raw1,
-            inverted: false,
+            inverted: inverted,
             find_outline: true,
             stride: width,
+            bg_color: bg_color,
+            fg_color: fg_color,
         }
     }
 
@@ -111,7 +117,7 @@ impl<'a> Skeletonize<'a> {
         let mut offset: usize;
 
         let mut pixels_removed: u32 = 0;
-        let bg_color = BACKGROUND_COLOR;
+        let bg_color = self.bg_color;
 
 
         let (width, height) = self.input_img.dimensions();
@@ -208,7 +214,7 @@ impl<'a> Skeletonize<'a> {
 
         let (width, height) = self.input_img.dimensions();
         let mut buffer = image_create::make_raw_buffer(width, height);
-        buffer[0] = FOREGROUND_COLOR;
+        buffer[0] = self.fg_color;
         println!("buffer.len() {}", buffer.len());
         let imgbuf_opt = image_create::raw_buffer2image_buffer(width, height, buffer);
         match imgbuf_opt {

@@ -12,6 +12,7 @@ pub fn make_gray_buffer(imgx: u32, imgy: u32) -> ImageBuffer<Luma<u8>, Vec<u8>> 
 }
 
 /// Create empty gray image of given size
+#[allow(dead_code)]
 pub fn make_gray(imgx: u32, imgy: u32) -> GrayImage {
     let imgbuf = make_gray_buffer(imgx, imgy);
     let output = image::ImageLuma8(imgbuf);
