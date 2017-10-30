@@ -10,6 +10,7 @@ use self::image::ImageFormat;
 use image_filter;
 use image_operations;
 use morphology::dilate_erode::{dilate_dynamic, erode_dynamic};
+use morphology::skeletonize::skeletonize_dynamic;
 
 use image_macro;
 use model_collection::ImageCommand;
@@ -76,6 +77,8 @@ fn input_to_output_name_test() {
     assert_eq!("img/Lenna.jpg.tiff".to_owned(), result_found)
 }
 
+pub const SKELETON_INVERT: bool = false;
+
 pub fn image_transform(
     im: image::DynamicImage,
     transform: &str,
@@ -94,6 +97,13 @@ pub fn image_transform(
         "dilate" => dilate_dynamic(&im),
         "erode" => erode_dynamic(&im),
         "edge" => image_filter::edge_operation(im),
+        "skeleton" => {
+            let invert_s: bool = if parameter.is_empty() {
+                SKELETON_INVERT
+            } else {
+                parameter.parse::<bool>().unwrap_or(SKELETON_INVERT)
+            };
+            skeletonize_dynamic(&im, invert_s)},
         "sobel_h" => image_filter::sobel_h_operation(im),
         "sobel_v" => image_filter::sobel_v_operation(im),
         "threshold" => {
